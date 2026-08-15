@@ -20,3 +20,4 @@ include = ["axis_train*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
