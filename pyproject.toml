@@ -28,6 +28,11 @@ dev = [
   "ruff==0.12.12",
 ]
 
+[project.optional-dependencies]
+dev = [
+  "pytest>=7",
+]
+
 [tool.setuptools.packages.find]
 include = ["axis_train*"]
 
