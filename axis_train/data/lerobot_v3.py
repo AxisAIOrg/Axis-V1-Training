@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
@@ -154,7 +155,7 @@ def copy_tree_or_symlink(src: Path, dst: Path, *, symlink: bool) -> None:
             shutil.rmtree(dst)
     ensure_dir(dst.parent)
     if symlink:
-        dst.symlink_to(src, target_is_directory=True)
+        dst.symlink_to(os.path.abspath(src), target_is_directory=True)
     else:
         shutil.copytree(src, dst, symlinks=True)
 
