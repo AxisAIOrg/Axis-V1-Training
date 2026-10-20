@@ -42,8 +42,11 @@ def make_episode_split(
     if n_train + n_val > total:
         n_val = max(0, total - n_train)
     n_test = total - n_train - n_val
-    if test_ratio > 0 and n_test == 0 and total >= 3:
-        n_train = max(1, n_train - 1)
+    if val_ratio > 0 and n_val == 0 and n_train > 1:
+        n_train -= 1
+        n_val = 1
+    if test_ratio > 0 and n_test == 0 and n_train > 1:
+        n_train -= 1
         n_test = 1
 
     split_ids = {

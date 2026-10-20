@@ -155,3 +155,36 @@ def test_episode_split_rejects_invalid_ratios(tmp_path: Path, ratios: tuple[floa
             val_ratio=ratios[1],
             test_ratio=ratios[2],
         )
+
+
+def test_episode_split_balances_val_and_test_on_small_datasets(tmp_path: Path) -> None:
+    source_5 = tmp_path / "source_5"
+    _write_dataset(source_5, [_raw_actions([0.02], 1.0) for _ in range(5)])
+    split_5 = make_episode_split(
+        source_5,
+        output_path=tmp_path / "split_5.json",
+        train_ratio=0.8,
+        val_ratio=0.1,
+        test_ratio=0.1,
+    )
+    assert len(split_5["train"]) == 3
+    assert len(split_5["val_seen"]) == 1
+    assert len(split_5["test_seen"]) == 1
+    all_5 = sorted(split_5["train"] + split_5["val_seen"] + split_5["test_seen"])
+    assert all_5 == list(range(5))
+
+    source_3 = tmp_path / "source_3"
+    _write_dataset(source_3, [_raw_actions([0.02], 1.0) for _ in range(3)])
+    split_3 = make_episode_split(
+        source_3,
+        output_path=tmp_path / "split_3.json",
+        train_ratio=0.8,
+        val_ratio=0.1,
+        test_ratio=0.1,
+    )
+    assert len(split_3["train"]) == 1
+    assert len(split_3["val_seen"]) == 1
+    assert len(split_3["test_seen"]) == 1
+    all_3 = sorted(split_3["train"] + split_3["val_seen"] + split_3["test_seen"])
+    assert all_3 == list(range(3))
+

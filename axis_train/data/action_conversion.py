@@ -43,8 +43,8 @@ def _resolve_quantile(value: Any, raw_width: np.ndarray) -> float:
 def convert_actions(raw_actions: np.ndarray, cfg: dict[str, Any]) -> ConversionResult:
     action_cfg = cfg.get("action_conversion", cfg)
     raw_layout = action_cfg.get("raw_layout", {})
-    arm_idx = list(raw_layout.get("arm", range(7)))
-    gripper_idx = list(raw_layout.get("gripper", [7, 8]))
+    arm_idx = list(raw_layout.get("arm", range(2, 9)))
+    gripper_idx = list(raw_layout.get("gripper", [0, 1]))
     gripper_cfg = action_cfg.get("gripper", {})
 
     raw_actions = np.asarray(raw_actions, dtype=np.float32)
@@ -252,7 +252,7 @@ def convert_dataset(
             "arm_dims_copied": bool(
                 np.allclose(
                     converted_all[:, :7],
-                    raw_all[:, list(action_cfg.get("raw_layout", {}).get("arm", range(7)))],
+                    raw_all[:, list(action_cfg.get("raw_layout", {}).get("arm", range(2, 9)))],
                     atol=float(cfg.get("checks", {}).get("arm_copy_tolerance", 1.0e-6)),
                 )
             ),
