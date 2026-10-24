@@ -61,6 +61,20 @@ uv run scripts/train.py pi05_libero_lora \
   --overwrite
 ```
 
+`pi05_libero_lora` reads its initial weights from `LIBERO_PI05_LORA_INIT_PARAMS`
+and its norm-stat assets from `LIBERO_PI05_ASSETS`. Unset, they default to
+`gs://openpi-assets/checkpoints/pi05_base/params` and
+`gs://openpi-assets/checkpoints/pi05_libero/assets`, which need GCS access.
+Point them at local copies to train offline:
+
+```bash
+LIBERO_PI05_LORA_INIT_PARAMS=/path/to/pi05_base/params \
+LIBERO_PI05_ASSETS=/path/to/pi05_libero/assets \
+uv run scripts/train.py pi05_libero_lora \
+  --exp-name libero_pi05_lora_v001 \
+  --overwrite
+```
+
 For resumed training:
 
 ```bash

@@ -139,6 +139,15 @@ level `norm-stats` and `train` commands and by compatibility shims:
   new lossless specs set it to `false`.
 - `AXIS_PI05_ASSETS_BASE_DIR`: shared absolute root where norm-stat generation
   writes and training reads `CONFIG_NAME/local/axis_clean/norm_stats.json`.
+- `AXIS_PI05_LORA_INIT_PARAMS`, `AXIS_PI05_FULL_INIT_PARAMS`,
+  `AXIS_PI05_ACTION_EXPERT_INIT_PARAMS`: initial weights for
+  `pi05_axis_clean_local_droid_lora`, `_full` and `_action_expert`.
+  `axis-train finetune --init-params` sets the one for the selected config.
+  Unset, the configs fall back to `gs://openpi-assets/checkpoints/pi05_droid/params`
+  (`_action_expert` tries `AXIS_PI05_FULL_INIT_PARAMS` first), so the run needs
+  GCS access. Without `--init-params`, `finetune` uses
+  `/data/openpi/openpi-assets/checkpoints/pi05_droid/params` when that
+  directory exists.
 
 ## Validation
 
